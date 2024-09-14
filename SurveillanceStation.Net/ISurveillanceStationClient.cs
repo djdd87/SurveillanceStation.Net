@@ -81,27 +81,25 @@ public interface ISurveillanceStationClient
     /// <param name="interval">The interval between snapshots in seconds.</param>
     /// <returns>The snapshots as a byte array.</returns>
     Task<byte[]> DownloadRecordingSnapshotsAsync(string startTime, string endTime, string camId, double interval);
+    /// <summary>
+    /// 
+    /// Takes and downloads a snapshot from a specified camera.
+    /// </summary>
+    /// <param name="camId">The ID or name of the camera. This value will be automatically double-quoted in the request.</param>
+    /// <param name="profileType">The profile type for the snapshot. (0: High quality, 1: Balanced)</param>
+    /// <param name="save">Whether to also save the snapshot in Surveillance Station.</param>
+    /// <param name="time">Optional specific time for the snapshot. This value will be automatically double-quoted in the request.</param>
+    /// <returns>A byte array containing the JPEG image data of the snapshot.</returns>
+    Task<byte[]> TakeAndDownloadSnapshotAsync(string camId, int profileType = 0, bool save = true, string time = null);
 
     /// <summary>
-    /// Downloads snapshots for a specified time range.
+    /// Takes and saves a snapshot from a specified camera in Surveillance Station.
     /// </summary>
-    /// <param name="startTime">The start time for the snapshots.</param>
-    /// <param name="endTime">The end time for the snapshots.</param>
-    /// <param name="camName">Optional camera name to filter snapshots.</param>
-    /// <param name="dsId">The ID of the Diskstation.</param>
-    /// <returns>The snapshots as a byte array.</returns>
-    Task<byte[]> DownloadSnapshotsAsync(string startTime, string endTime, string camName = null, string dsId = "0");
-
-    /// <summary>
-    /// Takes a snapshot from a specified camera.
-    /// </summary>
-    /// <param name="camId">The ID of the camera.</param>
-    /// <param name="profileType">The profile type for the snapshot.</param>
-    /// <param name="download">Whether to download the snapshot.</param>
-    /// <param name="save">Whether to save the snapshot.</param>
-    /// <param name="time">Optional specific time for the snapshot.</param>
-    /// <returns>Information about the taken snapshot.</returns>
-    Task<SnapshotInfo> TakeSnapshotAsync(string camId, int profileType = 0, bool download = true, bool save = true, string time = null);
+    /// <param name="camId">The ID or name of the camera. This value will be automatically double-quoted in the request.</param>
+    /// <param name="profileType">The profile type for the snapshot. (0: High quality, 1: Balanced)</param>
+    /// <param name="time">Optional specific time for the snapshot. This value will be automatically double-quoted in the request.</param>
+    /// <returns>SnapshotInfo containing metadata about the taken snapshot.</returns>
+    Task<SnapshotInfo> TakeAndSaveSnapshotAsync(string camId, int profileType = 0, string time = null);
 
     /// <summary>
     /// Creates a new bookmark.
