@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
+using System.Web;
 
 namespace SurveillanceStation.Net;
 
@@ -7,43 +8,67 @@ public partial class SurveillanceStationClient : ISurveillanceStationClient
 {
     private readonly HttpClient _httpClient;
     private readonly string _baseUrl;
+
+    public string Sid { get => _sid; }
     private string _sid;
 
-    public SurveillanceStationClient(string baseUrl)
+    public SurveillanceStationClient(string baseUrl, HttpClient httpClient)
     {
         _baseUrl = baseUrl;
-        _httpClient = new HttpClient();
+        _httpClient = httpClient;
     }
 
     private async Task<T> SendRequestAsync<T>(string endpoint, HttpMethod method, object data = null)
     {
-        var request = new HttpRequestMessage(method, $"{_baseUrl}{endpoint}");
-
+        var query = HttpUtility.ParseQueryString(string.Empty);
         if (data != null)
         {
-            request.Content = JsonContent.Create(data);
+            foreach (var prop in data.GetType().GetProperties())
+            {
+                object value = prop.GetValue(data);
+                if (value is bool)
+                {
+                    value = value.ToString().ToLower();
+                }
+
+                if (value != null)
+                {
+                    query[prop.Name] = value?.ToString();
+                }
+            }
         }
 
-        if (!string.IsNullOrEmpty(_sid))
-        {
-            request.RequestUri = new Uri($"{request.RequestUri}&_sid={_sid}");
-        }
+        var uriBuilder = new UriBuilder($"{_baseUrl}{endpoint}");
+        uriBuilder.Query = query.ToString();
+
+        var request = new HttpRequestMessage(method, uriBuilder.Uri);
 
         var response = await _httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        var content = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<ApiResponse<T>>(content, new JsonSerializerOptions
+        if (typeof(T) == typeof(byte[]))
         {
-            PropertyNameCaseInsensitive = true
-        });
-
-        if (!result.Success)
-        {
-            throw new ApiException(result.Error?.Code ?? 0, result.Error?.Message ?? "Unknown error");
+            return (T)(object)await response.Content.ReadAsByteArrayAsync();
         }
+        else if (typeof(T) == typeof(HttpResponseMessage))
+        {
+            return (T)(object)response;
+        }
+        else
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<ApiResponse<T>>(content, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
 
-        return result.Data;
+            if (!result.Success)
+            {
+                throw new ApiException(result.Error?.Code ?? 0, result.Error?.Message ?? "Unknown error");
+            }
+
+            return result.Data;
+        }
     }
 }
 

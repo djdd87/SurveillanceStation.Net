@@ -2,9 +2,9 @@
 
 public partial class SurveillanceStationClient
 {
-    public async Task<GeoMapItem> UpdateDeviceLocationAsync(string deviceId, double? longitude = null, double? latitude = null, int? radius = null, int? viewAngle = null, int? direction = null)
+    public async Task<GeoMapItem> UpdateDeviceLocationAsync(string deviceId, double? latitude = null, double? longitude = null, int? radius = null, int? viewAngle = null, int? direction = null)
     {
-        var data = new { deviceId, longitude, latitude, radius, viewAngle, direction };
+        var data = new { deviceId, latitude, longitude, radius, viewAngle, direction };
         var result = await SendRequestAsync<MapUpdateResponse>("/webapi/SurveillanceStation/ThirdParty/Emap/ChangeLocation/v1", HttpMethod.Get, data);
         return result.GeoMapItem[0];
     }

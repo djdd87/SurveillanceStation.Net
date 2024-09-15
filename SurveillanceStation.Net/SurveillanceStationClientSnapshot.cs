@@ -2,7 +2,7 @@
 
 public partial class SurveillanceStationClient
 {
-    public async Task<byte[]> TakeAndDownloadSnapshotAsync(string camId, int profileType = 0, bool save = true, string time = null)
+    public async Task<byte[]> TakeAndDownloadSnapshotAsync(string camId, int profileType = 0, bool save = false, string time = null)
     {
         var data = new
         {
@@ -13,7 +13,8 @@ public partial class SurveillanceStationClient
             time
         };
 
-        return await SendRequestAsync<byte[]>("/webapi/SurveillanceStation/ThirdParty/SnapShot/Take/v1", HttpMethod.Get, data);
+        var response = await SendRequestAsync<HttpResponseMessage>("/webapi/SurveillanceStation/ThirdParty/SnapShot/Take/v1", HttpMethod.Get, data);
+        return await response.Content.ReadAsByteArrayAsync();
     }
 
     public async Task<SnapshotInfo> TakeAndSaveSnapshotAsync(string camId, int profileType = 0, string time = null)

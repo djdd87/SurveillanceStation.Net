@@ -6,6 +6,12 @@
 public interface ISurveillanceStationClient
 {
     /// <summary>
+    /// Sets a known session ID.
+    /// </summary>
+    /// <param name="sid">The existing/known session ID.</param>
+    void Login(string sid);
+
+    /// <summary>
     /// Authenticates the user and retrieves a session ID.
     /// </summary>
     /// <param name="account">The user account name.</param>
@@ -81,8 +87,8 @@ public interface ISurveillanceStationClient
     /// <param name="interval">The interval between snapshots in seconds.</param>
     /// <returns>The snapshots as a byte array.</returns>
     Task<byte[]> DownloadRecordingSnapshotsAsync(string startTime, string endTime, string camId, double interval);
+    
     /// <summary>
-    /// 
     /// Takes and downloads a snapshot from a specified camera.
     /// </summary>
     /// <param name="camId">The ID or name of the camera. This value will be automatically double-quoted in the request.</param>
@@ -90,7 +96,7 @@ public interface ISurveillanceStationClient
     /// <param name="save">Whether to also save the snapshot in Surveillance Station.</param>
     /// <param name="time">Optional specific time for the snapshot. This value will be automatically double-quoted in the request.</param>
     /// <returns>A byte array containing the JPEG image data of the snapshot.</returns>
-    Task<byte[]> TakeAndDownloadSnapshotAsync(string camId, int profileType = 0, bool save = true, string time = null);
+    Task<byte[]> TakeAndDownloadSnapshotAsync(string camId, int profileType = 0, bool save = false, string time = null);
 
     /// <summary>
     /// Takes and saves a snapshot from a specified camera in Surveillance Station.
@@ -153,13 +159,13 @@ public interface ISurveillanceStationClient
     /// Updates the location of a device on the map.
     /// </summary>
     /// <param name="deviceId">The ID of the device to update.</param>
-    /// <param name="longitude">Optional new longitude of the device.</param>
     /// <param name="latitude">Optional new latitude of the device.</param>
+    /// <param name="longitude">Optional new longitude of the device.</param>
     /// <param name="radius">Optional new radius for the device's location.</param>
     /// <param name="viewAngle">Optional new view angle for the device.</param>
     /// <param name="direction">Optional new direction for the device.</param>
     /// <returns>Updated geographical information for the device.</returns>
-    Task<GeoMapItem> UpdateDeviceLocationAsync(string deviceId, double? longitude = null, double? latitude = null, int? radius = null, int? viewAngle = null, int? direction = null);
+    Task<GeoMapItem> UpdateDeviceLocationAsync(string deviceId, double? latitude = null, double ? longitude = null, int? radius = null, int? viewAngle = null, int? direction = null);
 
     /// <summary>
     /// Creates a new license plate entry in the database.
