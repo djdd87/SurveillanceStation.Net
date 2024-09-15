@@ -2,13 +2,13 @@
 
 namespace SurveillanceStation.Net.Tests;
 
-public class SurveillanceStationClientBookmarkTests
+public class BookmarkTests
 {
     private const string BaseUrl = "http://test-url.com";
     private readonly MockHttpMessageHandler _mockHttp;
     private readonly SurveillanceStationClient _client;
 
-    public SurveillanceStationClientBookmarkTests()
+    public BookmarkTests()
     {
         _mockHttp = new MockHttpMessageHandler();
         var httpClient = new HttpClient(_mockHttp) { BaseAddress = new Uri(BaseUrl) };

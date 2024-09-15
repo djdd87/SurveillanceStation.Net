@@ -3,13 +3,13 @@ using RichardSzalay.MockHttp;
 
 namespace SurveillanceStation.Net.Tests;
 
-public class SurveillanceStationClientAuthenticationTests
+public class AuthenticationTests
 {
     private const string BaseUrl = "http://test-url.com";
     private readonly MockHttpMessageHandler _mockHttp;
     private readonly SurveillanceStationClient _client;
 
-    public SurveillanceStationClientAuthenticationTests()
+    public AuthenticationTests()
     {
         _mockHttp = new MockHttpMessageHandler();
 

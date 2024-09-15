@@ -2,13 +2,13 @@
 
 namespace SurveillanceStation.Net.Tests;
 
-public class SurveillanceStationClientCameraTests
+public class CameraTests
 {
     private const string BaseUrl = "http://test-url.com";
     private readonly MockHttpMessageHandler _mockHttp;
     private readonly SurveillanceStationClient _client;
 
-    public SurveillanceStationClientCameraTests()
+    public CameraTests()
     {
         _mockHttp = new MockHttpMessageHandler();
         var httpClient = new HttpClient(_mockHttp) { BaseAddress = new Uri(BaseUrl) };

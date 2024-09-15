@@ -3,13 +3,13 @@ using System.Net;
 
 namespace SurveillanceStation.Net.Tests;
 
-public class SurveillanceStationClientRecordingTests
+public class RecordingTests
 {
     private const string BaseUrl = "http://test-url.com";
     private readonly MockHttpMessageHandler _mockHttp;
     private readonly SurveillanceStationClient _client;
 
-    public SurveillanceStationClientRecordingTests()
+    public RecordingTests()
     {
         _mockHttp = new MockHttpMessageHandler();
         var httpClient = new HttpClient(_mockHttp) { BaseAddress = new Uri(BaseUrl) };
