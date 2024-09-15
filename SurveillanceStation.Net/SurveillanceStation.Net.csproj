@@ -4,6 +4,21 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <FileVersion>0.0.0.1</FileVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>SurveillanceStation.Net</Title>
+    <Description>SurveillanceStation.Net is a .NET client library for interacting with the Synology Surveillance Station API. It provides a simple and intuitive interface for .NET applications to integrate with Synology's surveillance system.</Description>
+    <PackageProjectUrl>https://github.com/djdd87/SurveillanceStation.Net</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/djdd87/SurveillanceStation.Net</RepositoryUrl>
+    <PackageTags>Synology;Surveillance Station;Surveillance;API</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
