@@ -1,6 +1,9 @@
 # SurveillanceStation.Net
 A C# wrapper around the Synology Surveillance Station API
 
+# Archived (2025-04-11)
+Due to a lack of time and other commitments, I've decided to archive this project. Personally I'm now using [Frigate](https://github.com/blakeblackshear/frigate) with a cheap £60 Google Coral device - it's far better than this solution.
+
 ## WIP
 - Add unit tests
 - Create Nuget package
